@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>PontyBridge University Library: Users</title>
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Quattrocento+Sans" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/main.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <header class="top-header">
+      <div>
+        <h2><a href="index.html">PontyBridge University</a></h2>
+      </div>
+    </header>
+
+    <!-- Adding the navigation bar -->
+    <nav>
+      <div class="nav-bar">
+        <div class="nav-bar-item">
+          <a href="books.html">Books</a>
+        </div>
+        <div class="nav-bar-item">
+          <a href="users.html">Users</a>
+        </div>
+        <div class="nav-bar-item">
+          <a href="loans.html">Loans</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Adding the main content -->
+    <!-- There are the following functionalities on the users page:
+  1. Users search bar, from where user can search user by name, barcode or member type.
+  2. Add new user button, which open a windows pop up form to add a new user.
+  3. Results table, which shows all users in the library system. After searching the desired user,
+  the filtered results will appear on the results table.
+  4. There are two buttons provided on the results table Edit - to edit the user and Delete - to delete user -->
+    <div class="main-content">
+      <h3>Search for users</h3>
+      <div class="user-search">
+        <div class="user-search-item">
+          <input type="search" name="user-search" id="user-search-forJS" class="user-search-item" placeholder="Name / Barcode" onChange="searchUsers()">
+          <i class="material-icons" id="mis">search</i>
+        </div>
+        <a class="user-search-item--btn btn" href="add_user.html">Add New User</a>
+
+      </div>
+
+      <!-- Adding the form to update user -->
+      <!-- After clicking the Edit button, a new form will appear to modify the name and the member type of the selected user.
+      There are two buttons: Submit - to submt the updated data; and Cancel - to cancel the operation and go back to the books page -->
+      <form class="updating-userform">
+        <div class="form--updating-user-item">
+          <label for="update-name-forJS">Full Name:</label>
+          <input type="text" id="update-name-forJS" name="name" required>
+        </div>
+        <div class="form--updating-user-item">
+          <label for="update-member-type-forJS">Member type:</label>
+          <select id="update-member-type-forJS" name="memberType" class="form--updating-user-item--select">
+            <option value="Student" selected>Student</option>
+            <option value="Staff">Staff</option>
+          </select>
+        </div>
+        <div class="form--updating-user-item">
+          <input type="submit" id="update-user-submit-forJS" value="Submit" class="btn btn-submit">
+        </div>
+        <div class="form--updating-user-item">
+          <input type="reset" value="Cancel" class="btn btn-cancel">
+        </div>
+      </form>
+      <!--Search results table -->
+      <ul class="show-all-users display-search-results" id="display-search-results">
+      </ul>
+    </div>
+
+    <footer>
+      <div class="footer">
+        <h2 class="uninamefooter">PontyBridge University</h2>
+      </div>
+    </footer>
+  </div>
+  <script>
+    $(document).ready(function() {
+      getUsers();
+    });
+    function getUsers(){
+      $.ajax({
+        type: "GET",
+        url: "http://localhost:3000/users",
+        success: function(data){
+          console.log('users:', data);
+          $('#display-search-results').html('');
+          $('#display-search-results').append(
+          '<li class="display-search-results-item--4col">'+
+            '<h4>Name</h4>'+
+            '<h4>Barcode</h4>'+
+            '<h4>Member Type</h4>'+
+            '<h4>Edit / Delete</h4>'+
+          '</li>'
+          );
+            for(i=0; i<data.length;i++){
+              $('#display-search-results').append(
+              '<li class="display-search-results-item--4col">'+
+                '<h4>'+data[i].name+'</h4>'+
+                '<h4>'+data[i].barcode+'</h4>'+
+                '<h4>'+data[i].memberType+'</h4>'+
+                '<h4><i class="fa fa-edit" onClick="editUser('+data[i].id+')"> <i class="fa fa-trash" onClick="removeUser('+data[i].id+')"></i></h4>'+
+              '</li>'
+            );
+          }
+        }
+      });
+    }
+    function searchUsers() {
+      console.log("called");
+      var barcode = $('#user-search-forJS').val();
+      $.ajax({
+        type: "GET",
+        url: "http://localhost:3000/search?type=user&barcode="+barcode,
+        success: function(data){
+          console.log('books:', data);
+          $('#display-search-results').html('');
+          $('#display-search-results').append(
+          '<li class="display-search-results-item--4col">'+
+            '<h4>Name</h4>'+
+            '<h4>Barcode</h4>'+
+            '<h4>Member Type</h4>'+
+            '<h4>Edit / Delete</h4>'+
+          '</li>'
+          );
+            for(i=0; i<data.length;i++){
+              $('#display-search-results').append(
+              '<li class="display-search-results-item--4col">'+
+                '<h4>'+data[i].name+'</h4>'+
+                '<h4>'+data[i].barcode+'</h4>'+
+                '<h4>'+data[i].memberType+'</h4>'+
+                '<h4><i class="fa fa-edit"> <i class="fa fa-trash" onClick="removeUser('+data[i].id+')"></i></h4>'+
+              '</li>'
+            );
+          }
+        }
+      });
+    }
+    function removeUser(id) {
+      $.ajax({
+        type: "DELETE",
+        url: "http://localhost:3000/users/"+id,
+        success: function(){
+          location.reload();
+        }
+      });
+    }
+    function editUser(id) {
+      console.log('click');
+      $.ajax({
+        type: "PUT",
+        url: "http://localhost:3000/users/"+id,
+        success: function(){
+          location.reload();
+        }
+      });
+    }
+  </script>
+  <script src="js/all.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>PontyBridge University Library: Add New Book</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Quattrocento+Sans" rel="stylesheet">
+  <link rel="stylesheet" href="css/main.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+
+  <div class="container">
+    <header class="top-header">
+      <div>
+        <h2><a href="index.html">PontyBridge University</a></h2>
+      </div>
+    </header>
+
+    <!-- Adding the navigation bar -->
+    <nav>
+      <div class="nav-bar">
+
+        <div class="nav-bar-item">
+          <a href="books.html">Books</a>
+        </div>
+
+        <div class="nav-bar-item">
+          <a href="users.html">Users</a>
+        </div>
+
+        <div class="nav-bar-item">
+          <a href="loans.html">Loans</a>
+        </div>
+      </div>
+    </nav>
+<!-- Adding the main content -->
+<!-- When the user clicks on Add new book button from Books page, a pop-up window will appear
+with the following inputs: Title, ISBN and Author. All the inputs should be filled,
+ISBN can only be 8,9 or digit numbers. -->
+
+<!--There are two buttons on the form:
+Submit - for submitting user inputs and Back - to go back to the Books page -->
+    <div class="main-content modal">
+      <form id="adding-book-form-forJS" class="adding-form">
+        <div class="adding-form-item">
+          <label for="title-input-forJS">Title:</label>
+          <input type="text" id="title-input-forJS" name="title" placeholder="Title" value="math" required />
+        </div>
+        <div class="adding-form-item">
+          <label for="isbn-input-forJS">ISBN:</label>
+          <input type="text" id="isbn-input-forJS" name="isbn" pattern="\d{8,10}" placeholder="12345678" value="12345678" required />
+        </div>
+        <div class="adding-form-item">
+          <label for="author-input-forJS">Author:</label>
+          <input type="text" id="author-input-forJS" name="name" placeholder="Name Surname" value="Miguel" required />
+          <!-- <select id="author-input-forJS" name="name" required >
+            
+          </select> -->
+        </div>
+        <div class="adding-form-item">
+          <!-- The submit button -->
+          <button id="adding-book-forJS" class="btn" onClick="addBook()">Submit</button>
+          <!-- The back button-->
+          <a href="books.html" class="material-icons back" id="arrow_back">arrow_back</a>
+        </div>
+      </form>
+    </div>
+    <footer>
+      <div class="footer">
+        <h2 class="uninamefooter">PontyBridge University</h2>
+      </div>
+    </footer>
+
+  </div>
+  <script>
+    $(document).ready(function() {
+      // getAuthor();
+    });
+    // function getAuthor(){
+    //   $.ajax({
+    //     type: "GET",
+    //     url: "http://localhost:3000/authors",
+    //     success: function(data){
+    //       console.log('authors:', data);
+    //         for(i=0; i<data.length;i++){
+    //           $('#author-input-forJS').append(
+    //           '<option value="'+data[i].id+'">'+data[i].name+'<option>'
+    //         );
+    //       }
+    //     }
+    //   });
+    // }
+    function addBook(){
+      var title = $('#title-input-forJS').val();
+      var isbn = $('#isbn-input-forJS').val();
+      var author = $('#author-input-forJS').val();
+      console.log("author: ", author);
+      $.ajax({
+        type: "POST",
+        url: "http://localhost:3000/books",
+        data: {
+          title: title,
+          isbn : isbn }
+      });
+      console.log("aaaaaaaaaaa");
+      $('#arrow_back').trigger('click');
+    }
+  </script>
+  <script src="js/all.js"></script>
+</body>
+
+</html>

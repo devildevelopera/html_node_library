@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>PontyBridge University Library: Loans</title>
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Quattrocento+Sans" rel="stylesheet">
+  <!--Remove favicon.ico error-->
+  <link rel="shortcut icon" href="#" />
+  <link rel="stylesheet" href="css/main.css">
+</head>
+
+<body>
+
+  <div class="container">
+    <header class="top-header">
+      <div>
+        <h2><a href="index.html">PontyBridge University</a>
+        </h2>
+      </div>
+    </header>
+    <!-- Adding the navigation bar -->
+    <nav>
+      <div class="nav-bar">
+        <div class="nav-bar-item">
+          <a href="books.html">Books</a>
+        </div>
+        <div class="nav-bar-item">
+          <a href="users.html">Users</a>
+        </div>
+        <div class="nav-bar-item">
+          <a href="loans.html">Loans</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Adding the main content -->
+    <!-- There are the following functionalities on the Loans page:
+        1. Firstly, the user needs to type his/her barcode number into Barcode search bar for identification
+        2. After submitting the barcode, user's name and the current loaned books will be shown with Due Date.
+        3. Then the user can search the desired book by title
+        4. Results table will display the searched book/books and its/their status - if its is available or not.
+        5. From the results table user can click to + (loan) button to loan the available book for 10 days,
+          The message will appear: "Book loaned. Due Date: Date.
+        P.S Functionality is provided in all.js - function LoanBook(e) -->
+    <div class="main-content">
+      <div>
+        <!-- Identify user by barcode -->
+        <div class="welcome-user"></div>
+        <h3>Please, enter your barcode!</h3>
+        <form class="get-barcode-form">
+          <input type="search" class="barcode-input-forJS" placeholder="Barcode" pattern="\d{6}" required>
+          <input type="submit" value="Submit" class="btn barcode-search-forJS">
+        </form>
+      </div>
+      <!-- Display user's name and current loaned books -->
+      <div class="display-user-loans">
+        <div class="display-user-loans-item--books">
+          <h3>Hi, <span class="user-name"> </span>! </h3>
+          <h3>Your current loans are here: <span class="loaned-books-number"> </span></h3>
+            <ul class="loaned-books">
+            </ul>
+        </div>
+        <!-- Search book by title -->
+        <div class="display-user-loans-item--search">
+          <h4>Enter the book title you want to loan!</h4>
+          <form class="book-search-form">
+            <input type="search" class="book-search-input-forJS" placeholder="Book Title" required>
+            <input type="submit" value="Search" class="btn book-search-forJS">
+          </form>
+        </div>
+      </div>
+      <!-- Search book results table -->
+      <ul class="display-search-results">
+      </ul>
+    </div>
+
+    <footer>
+      <div class="footer">
+        <h2 class="uninamefooter">PontyBridge University</h2>
+      </div>
+    </footer>
+  </div>
+
+
+  <script src="js/all.js"></script>
+
+</body>
+
+</html>

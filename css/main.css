@@ -1,0 +1,429 @@
+/*** Some general styling ***/
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family:'Quattrocento Sans';
+  font-size: 0.9em;
+  line-height: 1.1;
+  margin: 0;
+}
+
+/*** Uniname styling at header and footer ***/
+h2 {
+  display: inline-block;
+  font-size: 1.5em;
+  padding-left: 1.5em;
+}
+
+h2 a {
+  box-sizing: border-box;
+  color: white;
+  text-decoration: none;
+  padding: 0.8em 0;
+}
+
+/*** Footer and footer content layout ***/
+header,
+footer {
+  background-color: #381460;
+}
+
+.footer {
+  display: flex;
+  position: relative;
+  justify-content: space-between;
+  flex-basis: 200px;
+  padding: 0 0.5em;
+  color: white;
+  bottom:0;
+  clear: both;
+}
+
+.uninamefooter {
+  font-size: 1.2em;
+}
+
+
+/*** Navigation bar layout ***/
+nav {
+  width: 100%;
+  background-color: #a278b5;
+}
+
+.nav-bar {
+  max-width: 100%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: flex-start;
+  overflow: hidden;
+}
+
+.nav-bar-item {
+  align-self: stretch;
+  flex: 0 1 10em;
+  background-color: #a278b5;
+  padding: 0.2em;
+  margin: 0 0.4em;
+  font-size: 1.5em;
+}
+
+.nav-bar-item a {
+  display: block;
+  padding: 0.4em 0;
+  color: white;
+  text-decoration: none;
+  text-align: center;
+}
+
+/****** Grid structure ******/
+/*I am using part of SCSS grid template for styling grid items and display search results in a nice way */
+header {
+  grid-area: header;
+}
+
+footer {
+  grid-area: footer;
+}
+
+.container {
+  margin: 0 auto;
+  display: grid;
+  height: 100vh;
+  grid-template-columns: 1fr;
+  grid-template-rows: 8.5em 3.5em 1fr 5.7em;
+  box-sizing: border-box;
+  grid-template-areas: "header ""nav ""main-content ""footer ";
+}
+
+.main-content {
+  grid-area: main-content;
+  padding: 2em 1em;
+}
+
+/****** Tablet view ******/
+@media (min-width: 1024px) {
+  .main-content {
+    max-width: 100%;
+  }
+}
+
+/****** Mobile view ******/
+@media (min-width: 600px) {
+  .main-content {
+    width: 80vw;
+    margin: 0 auto;
+  }
+}
+
+/**** Styling of buttons ****/
+/* The general button styling which I am using for the most of buttons */
+.btn {
+  border: none;
+  padding: 0.4em 0.6em;
+  text-align: center;
+  text-decoration: none;
+  color: white;
+  font-size: 1.3em;
+  display: inline-block;
+  border-radius: 3px;
+  background-color: #02a8a8;
+}
+
+.btn:hover {
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
+}
+
+.adding-form .btn {
+  width: 100%;
+}
+
+/*Styling of the back button, to go back to the users/books page after adding a new user/book */
+.back {
+  position: fixed;
+  color: white;
+  padding-top: 70px;
+  padding-left: 110px;
+  text-decoration: none;
+}
+
+/***** Search results table for books and users ******/
+.display-search-results {
+  margin-top: 1em;
+  margin-left: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  background-color: #f7e8f6;
+  overflow: auto;
+}
+
+.display-search-results-item--4col {
+  display: inline-grid;
+  grid-template-columns: 1fr repeat(3, 1fr);
+}
+
+.display-search-results-item--3col {
+  display: inline-grid;
+  grid-template-columns: 3fr 2fr 1fr;
+  align-items: center;
+}
+
+.display-search-results-item--4col, .display-search-results-item--3col {
+  padding: 0.7em 0;
+}
+
+.display-search-results-item--4col span, .display-search-results-item--3col span {
+  padding: 0 0.4em;
+}
+
+/*  A modal dialog pop up window will be displayed when adding a new book or a new user,
+    I used the part of may code from the following link *https://www.w3schools.com/howto/howto_css_modals.asp  */
+.modal {
+  display: block;
+  position: fixed;
+  z-index: 1;
+  padding-top: 230px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0);
+  /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4);
+  /* Black w/ opacity */
+}
+
+/* Layout of the adding form, its input fields and the button to add a new book or a new user  */
+.adding-form {
+  width: 40%;
+  display: grid;
+  grid-gap: 0.8em;
+  grid-template-columns: 1fr;
+}
+
+.adding-form-item {
+  display: inline-grid;
+  grid-template-columns: 8em 1fr;
+}
+
+.adding-form-item label {
+  justify-self: end;
+  padding: 0.4em 0.8em;
+}
+
+.adding-form-item .btn {
+  grid-column: 2/3;
+}
+
+/*** Layout of user's update form, its input and buttons ***/
+.updating-userform {
+  display: none;
+  grid-template-columns: 1fr;
+  justify-content: center;
+  align-items: left;
+  margin: 2em auto;
+  margin-left: 0;
+  border-radius: 10px;
+}
+
+.form--updating-user-item {
+  display: inline-grid;
+  grid-template-columns: 7em 1fr;
+  padding: 0.4em;
+}
+
+.form--updating-user-item select,
+.form--updating-user-item input {
+  padding: 0.4em 0.8em;
+}
+
+.form--updating-user-item label {
+  justify-self: end;
+  padding: 0.4em 0.8em;
+}
+
+.form--updating-user-item .btn-submit {
+  grid-column: 2/3;
+}
+
+.form--updating-user-item .btn-cancel {
+  grid-row: 1/2;
+  grid-column: 2/3;
+}
+
+/****** Tablet view ******/
+@media (min-width: 1024px) {
+  .updating-userform {
+    width: 60%;
+  }
+}
+
+/****** Mobile view ******/
+@media (min-width: 600px) {
+  .updating-userform {
+    width: 50%;
+  }
+}
+
+/****** The search bar for users and books ******/
+.book-search,
+.user-search {
+  display: grid;
+  max-width: 800px;
+}
+
+.book-search-item,
+.user-search-item {
+  margin: 0.2em 0;
+  width: 100%;
+  position: relative;
+}
+
+.book-search-item
+.user-search-item {
+  position: absolute;
+  right: 3px;
+  top: 0;
+  color: #adabab;
+  padding: 0.6em;
+}
+
+#mis {
+  position: absolute;
+  right: 3px;
+  color: #adabab;
+  padding: 0.2em;
+}
+
+/* Styling of the form inputs: search and text */
+input[type="search"] {
+  padding: 0.8em 0.8em;
+  box-sizing: border-box;
+  display: inline-block;
+  border-radius: 10px;
+  border: 1px solid #7a7a7a;
+}
+
+input[type="text"] {
+  padding: 0.8em 0.8em;
+  display: inline-block;
+  border-radius: 10px;
+  border: 1px solid #7a7a7a;
+}
+
+select {
+  padding: 0.7em 0.8em;
+  display: inline-block;
+  border-radius: 10px;
+  border: 1px solid #7a7a7a;
+}
+
+/* Search bar for mobile view */
+@media (min-width: 600px) {
+
+  .book-search,
+  .user-search {
+    grid-template-columns: 2fr 1fr;
+    grid-gap: 0.8em;
+  }
+
+  .book-search-item,
+  .user-search-item {
+    margin: 0;
+  }
+}
+
+/****** Loans Page ********* /
+
+/**** Styling of search bar, button and inputs ****/
+.display-user-loans-item--search {
+  width: 100%;
+}
+
+.display-user-loans-item--search input[type="search"] {
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+.display-user-loans-item--search .btn {
+  width: 100%;
+}
+
+/* Mobile view */
+@media (min-width: 600px) {
+  .display-user-loans-item--search {
+    width: 80%;
+  }
+}
+
+@media (min-width: 600px) {
+  .display-user-loans-item--search input[type="search"] {
+    margin-right: 1em;
+    width: 65%;
+  }
+}
+
+@media (min-width: 600px) {
+  .display-user-loans-item--search .btn {
+    width: 30%;
+  }
+}
+
+/* The styling of the results content - identified user's current loans */
+.display-user-loans {
+  display: block;
+  width: 90vw;
+}
+
+.loaned-books {
+  display: grid;
+  grid-template-columns: 1fr;
+  list-style: none;
+  margin-left: -1em;
+  list-style: none;
+}
+
+.loaned-books__item {
+  padding: 0.6em 1em;
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.loaned-books__item--header {
+  font-size: 1.2em;
+  font-weight: 600;
+}
+
+/****** Mobile view for loaned books ******/
+@media (min-width: 600px) {
+  .loaned-books {
+    max-width: 900px;
+  }
+}
+
+.display-user-loans-item--search {
+  padding: 2em;
+}
+
+/* The styling of the results content - the books which the user wants to loan */
+
+.li-results-top {
+  list-style: none;
+  font-size: 1.3em;
+  font-weight: 600;
+  margin: 0.4em;
+}
+
+.display-search-results {
+  color: #230444;
+  padding: 0 1em;
+  font-size: 1.1em;
+}
+
+.loaned {
+  color: white;
+  font-weight: 600;
+}

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>PontyBridge University Library: Books</title>
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Quattrocento+Sans" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/main.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <header class="top-header">
+      <div>
+        <h2><a href="index.html">PontyBridge University</a></h2>
+      </div>
+    </header>
+
+    <!-- Adding the navigation bar -->
+    <nav>
+      <div class="nav-bar">
+        <div class="nav-bar-item">
+          <a href="books.html">Books</a>
+        </div>
+        <div class="nav-bar-item">
+          <a href="users.html">Users</a>
+        </div>
+        <div class="nav-bar-item">
+          <a href="loans.html">Loans</a>
+        </div>
+      </div>
+    </nav>
+    <!-- Adding the main content -->
+    <!-- There are the following functionalities on the books page:
+  1. Books search bar, from where user can search book by title, author and ISBN
+  2. Add new book button, which open a windows pop up form to add a new book.
+  3. Results table, which shows all books in the library system. After searching the desired book,
+  the filtered results will appear on the results table.
+  4. There is a Delete button provided to delete user -->
+    <div class="main-content">
+      <h3>Search for books</h3>
+      <div class="book-search">
+        <div class="book-search-item">
+          <input type="search" name="book-search" id="book-search-forJS" class="book-search-item" placeholder="Title / Author" onChange="searchBooks()">
+          <i class="material-icons" id="mis">search</i>
+        </div>
+        <a class="book-search-item--btn btn" href="add_book.html">Add new book</a>
+      </div>
+      <!--Results table -->
+      <ul class="show-all-books display-search-results" id="display-search-results">
+                
+      </ul>
+    </div>
+
+    <footer>
+      <div class="footer">
+        <h2 class="uninamefooter">PontyBridge University</h2>
+      </div>
+    </footer>
+  </div>
+  <script>
+    $(document).ready(function() {
+      getBooks();
+    });
+    function authorNameRender(_author){
+      var result = "";
+      _author.forEach((author, index) => {
+          result += author.name;
+          if(index < _author.length) {
+            result += ", "
+          }
+      });
+      return result;
+    }
+    function getBooks(){
+      $.ajax({
+        type: "GET",
+        url: "http://localhost:3000/books?allEntities=true",
+        success: function(data){
+          console.log('books:', data);
+          $('#display-search-results').html('');
+          $('#display-search-results').append(
+          '<li class="display-search-results-item--4col">'+
+            '<h4>Title</h4>'+
+            '<h4>Author</h4>'+
+            '<h4>ISBN</h4>'+
+            '<h4>Delete</h4>'+
+          '</li>'
+          );
+            for(i=0; i<data.length;i++){
+              $('#display-search-results').append(
+              '<li class="display-search-results-item--4col">'+
+                '<h4>'+data[i].title+'</h4>'+
+                '<h4>'+ authorNameRender(data[i].Authors) +'</h4>'+
+                '<h4>'+data[i].isbn+'</h4>'+
+                '<h4 onClick="removeBook('+data[i].id+')"><i class="fa fa-trash"></i></h4>'+
+              '</li>'
+            );
+          }
+        }
+      });
+    }
+    function searchBooks() {
+      console.log("called");
+      var title = $('#book-search-forJS').val();
+      $.ajax({
+        type: "GET",
+        url: "http://localhost:3000/search?type=book&title="+title,
+        success: function(data){
+          console.log('books:', data);
+          $('#display-search-results').html('');
+          $('#display-search-results').append(
+          '<li class="display-search-results-item--4col">'+
+            '<h4>Title</h4>'+
+            '<h4>Author</h4>'+
+            '<h4>ISBN</h4>'+
+            '<h4>Delete</h4>'+
+          '</li>'
+          );
+            for(i=0; i<data.length;i++){
+              $('#display-search-results').append(
+              '<li class="display-search-results-item--4col">'+
+                '<h4>'+data[i].title+'</h4>'+
+                '<h4></h4>'+
+                '<h4>'+data[i].isbn+'</h4>'+
+                '<h4 onClick="removeBook('+data[i].id+')"><i class="fa fa-trash"></i></h4>'+
+              '</li>'
+            );
+          }
+        }
+      });
+    }
+    function removeBook(id) {
+      $.ajax({
+        type: "DELETE",
+        url: "http://localhost:3000/books/"+id,
+        success: function(){
+          location.reload();
+        }
+      });
+    }
+  </script>
+  <script src="js/all.js"></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>PontyBridge University Library: Add New User</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Quattrocento+Sans" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/main.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <header class="top-header">
+      <div>
+        <h2><a href="index.html">PontyBridge University</a>
+        </h2>
+      </div>
+    </header>
+
+    <!-- Adding the navigation section -->
+
+    <nav>
+      <div class="nav-bar">
+        <div class="nav-bar-item">
+          <a href="books.html">Books</a>
+        </div>
+        <div class="nav-bar-item">
+          <a href="users.html">Users</a>
+        </div>
+        <div class="nav-bar-item">
+          <a href="loans.html">Loans</a>
+        </div>
+      </div>
+    </nav>
+    <!-- Adding the main content -->
+    <!-- When the user clicks on Add new user button from Users page, a pop-up window will appear
+    with the following inputs: Name, Barcode and Member type (selection). All the inputs should be filled,
+    barcode can only be 6 digit number. -->
+
+    <!-- There are two buttons on the form:
+    Submit - for submitting user inputs and Back - to go back to the Users page -->
+    <div class="main-content modal">
+      <form class="adding-form">
+        <div class="adding-form-item">
+          <label for="name-forJS">Name:</label>
+          <input type="text" id="name-forJS" name="name" placeholder="Name Surname" required>
+        </div>
+        <div class="adding-form-item">
+          <label for="barcode-forJS">Barcode:</label>
+          <input type="text" id="barcode-forJS" name="barcode" required pattern="\d{6}" placeholder="123456">
+        </div>
+        <div class="adding-form-item">
+          <label for="type-forJS">Member type:</label>
+          <select id="type-forJS" name="memberType" class="adding-form-item--select">
+            <option value="Student" selected>Student</option>
+            <option value="Staff">Staff</option>
+          </select>
+        </div>
+        <div class="adding-form-item">
+          <!-- The submit button -->
+          <input type="submit" id="adding-user-forJS" value="Submit" class="btn" onClick="addUser()">
+          <!-- The back button -->
+          <a href="users.html" class="material-icons back">arrow_back</a>
+        </div>
+      </form>
+
+    </div>
+
+    <footer>
+      <div class="footer">
+        <h2 class="uninamefooter">PontyBridge University</h2>
+      </div>
+    </footer>
+
+  </div>
+  <script>
+    function addUser(){
+        var name = $('#name-forJS').val();
+        var barcode = $('#barcode-forJS').val();
+        var memberType = $('#type-forJS').val();
+        console.log("memberType: ", memberType);
+        $.ajax({
+          type: "POST",
+          url: "http://localhost:3000/users",
+          data: {
+            name: name,
+            barcode : barcode,
+            memberType: memberType}
+        });
+        $('#arrow_back').trigger('click');
+      }
+  </script>
+  <script src="js/all.js"></script>
+
+</body>
+
+</html>
